@@ -1,0 +1,21 @@
+services:
+  zero-server:
+    image: harbor.jlgltech.com/qa/zero:latest
+    volumes:
+      - /home/deploy/log/zero:/home/deploy/log/zero
+      - /home/deploy/.ssh:/root/.ssh
+    ports:
+      - "8000:8000"
+    network_mode: host
+    restart: always
+    container_name: zero
+    command: bash -c "gunicorn wsgi -c gunicorn_config.py"
+
+  zero-celery-worker:
+    image: harbor.jlgltech.com/qa/zero:latest
+    volumes:
+      - /home/deploy/log/zero:/home/deploy/log/zero
+      - /data/jacoco/report:/data/jacoco/report
+    network_mode: host
+    restart: always
+    container_name: zero-celery-zero
